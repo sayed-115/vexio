@@ -255,12 +255,17 @@ def main():
             
             choices = []
             idx = 1
+            is_best_res = True
             for res in available_res:
                 # Label standard ones clearly
                 label = f"{res}p"
                 if res == 2160: label = "4K (2160p)"
                 elif res == 4320: label = "8K (4320p)"
                 
+                if is_best_res:
+                    label += " [bold green](Highest Quality)[/bold green]"
+                    is_best_res = False
+                    
                 console.print(f"  [cyan]{idx}.[/cyan] {label} Video [dim](Auto-merges highest quality audio)[/dim]")
                 choices.append(str(idx))
                 idx += 1
@@ -280,9 +285,10 @@ def main():
             choices.append(raw_idx)
             idx += 1
             
-            back_idx = str(idx)
-            console.print(f"  [cyan]{back_idx}.[/cyan] Go back [dim](Enter a new URL)[/dim]")
-            choices.append(back_idx)
+            console.print(f"  [cyan]0[/cyan] or [cyan]b[/cyan]. Go back [dim](Enter a new URL)[/dim]")
+            choices.append("0")
+            choices.append("b")
+            choices.append("B")
             
             choice = Prompt.ask("\n[bold yellow]Select Format[/bold yellow]", choices=choices)
             
@@ -301,7 +307,7 @@ def main():
                 if custom_id:
                     download_media(url, custom_id)
                 break
-            elif choice == back_idx:
+            elif choice in ["0", "b", "B"]:
                 break
             else:
                 # We know they picked a dynamic resolution
