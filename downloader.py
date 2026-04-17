@@ -284,13 +284,19 @@ def main():
                 choices.append(str(idx))
                 idx += 1
                 
+            native_audio_desc = "Opus/M4A Format"
+            mp3_audio_desc = "320kbps"
+            if best_audio_kbps > 0:
+                native_audio_desc = f"{int(best_audio_kbps)}kbps {best_audio_ext} Format"
+                mp3_audio_desc = f"Transcoded ~{int(best_audio_kbps)}kbps MP3"
+
             audio_best_idx = str(idx)
-            console.print(f"  [cyan]{audio_best_idx}.[/cyan] Audio Only (Best Quality Native) [dim](Opus/M4A Format - Highest Quality)[/dim]")
+            console.print(f"  [cyan]{audio_best_idx}.[/cyan] Audio Only (Best Quality Native) [dim]({native_audio_desc} - Highest Quality)[/dim]")
             choices.append(audio_best_idx)
             idx += 1
             
             audio_mp3_idx = str(idx)
-            console.print(f"  [cyan]{audio_mp3_idx}.[/cyan] Audio Only (MP3 Format) [dim](320kbps - Highly Compatible)[/dim]")
+            console.print(f"  [cyan]{audio_mp3_idx}.[/cyan] Audio Only (MP3 Format) [dim]({mp3_audio_desc} - Highly Compatible)[/dim]")
             choices.append(audio_mp3_idx)
             idx += 1
             
