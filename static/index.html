@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura Downloader | Premium Media Archiver</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="blob-bg"></div>
+
+    <main class="container">
+        <header class="header">
+            <h1 class="logo">Aura <span>Downloader</span></h1>
+            <p class="subtitle">Extract maximum quality media from any link.</p>
+        </header>
+
+        <section class="search-section">
+            <div class="input-group">
+                <input type="text" id="url-input" placeholder="Paste YouTube link here..." autocomplete="off">
+                <button id="fetch-btn">
+                    <span class="btn-text">Analyze</span>
+                    <div class="spinner hidden" id="fetch-spinner"></div>
+                </button>
+            </div>
+            <div id="error-message" class="error-toast hidden"></div>
+        </section>
+
+        <!-- Dynamic Results Section -->
+        <section id="results-section" class="results-layout hidden">
+            <div class="media-card">
+                <div class="thumbnail-wrapper">
+                    <img id="media-thumb" src="" alt="Thumbnail">
+                </div>
+                <h2 id="media-title">Media Title</h2>
+            </div>
+            
+            <div class="options-container">
+                <h3 class="section-title">Select Quality to Prepare</h3>
+                <div id="video-options" class="options-grid"></div>
+                
+                <h3 class="section-title" style="margin-top: 24px;">Audio Extract</h3>
+                <div id="audio-options" class="options-grid">
+                    <button class="opt-btn audio-btn" data-type="audio" data-id="native">Native Quality (Lossless)</button>
+                    <button class="opt-btn audio-btn" data-type="audio" data-id="mp3">MP3 Format (320kbps)</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Progress Tracking Section -->
+        <section id="progress-section" class="progress-layout hidden">
+            <div class="glass-panel">
+                <h3 id="progress-title">Preparing Download...</h3>
+                <div class="progress-track">
+                    <div id="progress-fill" class="progress-fill"></div>
+                </div>
+                <div class="progress-stats">
+                    <span id="percent-text">0%</span>
+                    <span id="status-text" class="pulse">Downloading...</span>
+                </div>
+                
+                <div id="action-area" class="mt-4 hidden">
+                    <a id="save-file-btn" class="save-btn" href="#" download>✨ Save File to Computer</a>
+                    <button id="reset-btn" class="ghost-btn">Download Another</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
