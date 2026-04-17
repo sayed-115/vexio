@@ -247,18 +247,16 @@ def main():
             f.get("height") for f in formats if f.get("height") and f.get("vcodec") != "none"
         )), reverse=True)
         
-        # Filter down to common recognizable resolutions to keep menu clean
-        common_res = [res for res in resolutions if res in [4320, 2160, 1440, 1080, 720, 480, 360]]
-        if not common_res and resolutions:
-            common_res = [resolutions[0]] # ensure at least max quality is presesnt
-            
+        # Show all available unique resolutions (useful for vertical social media formats like 1920p/1280p)
+        available_res = resolutions[:10] # Limit to top 10 to prevent massive console menus
+        
         while True:
             console.print("\n[bold underline]Download Quality Options:[/bold underline]")
             
             choices = []
             idx = 1
-            for res in common_res:
-                # Label standard ones
+            for res in available_res:
+                # Label standard ones clearly
                 label = f"{res}p"
                 if res == 2160: label = "4K (2160p)"
                 elif res == 4320: label = "8K (4320p)"
@@ -307,7 +305,7 @@ def main():
                 break
             else:
                 # We know they picked a dynamic resolution
-                picked_res = common_res[int(choice) - 1]
+                picked_res = available_res[int(choice) - 1]
                 # Format string to grab the best video less-than/equal-to the resolution, and best audio
                 fmt_str = f"bestvideo[height<={picked_res}]+bestaudio/best[height<={picked_res}]"
                 download_media(url, fmt_str)
