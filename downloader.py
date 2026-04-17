@@ -164,7 +164,7 @@ def download_media(url, format_choice, is_audio=False, audio_mode="mp3"):
     """Executes the download with yt-dlp."""
     # Ensure merge-output-format isn't passed when audio is extracted to prevent errors
     if is_audio:
-        base_cmd = [sys.executable, "-m", "yt_dlp", url, "-P", DOWNLOAD_DIR, "-o", "%(title)s.%(ext)s"]
+        base_cmd = [sys.executable, "-m", "yt_dlp", url, "-P", DOWNLOAD_DIR, "-o", "%(title).60s_[%(id)s].%(ext)s", "--restrict-filenames"]
         if audio_mode == "mp3":
             # Best possible VBR 0 MP3 (equivalent to 320kbps)
             cmd = base_cmd + ["-x", "--audio-format", "mp3", "--audio-quality", "0"]
@@ -172,7 +172,7 @@ def download_media(url, format_choice, is_audio=False, audio_mode="mp3"):
             # Exact 1:1 bit-for-bit native youtube audio (Opus/AAC)
             cmd = base_cmd + ["-f", "bestaudio/best", "-x"]
     else:
-        base_cmd = [sys.executable, "-m", "yt_dlp", url, "-P", DOWNLOAD_DIR, "-o", "%(title)s.%(ext)s", "--merge-output-format", "mp4"]
+        base_cmd = [sys.executable, "-m", "yt_dlp", url, "-P", DOWNLOAD_DIR, "-o", "%(title).60s_[%(id)s].%(ext)s", "--restrict-filenames", "--merge-output-format", "mp4"]
         if format_choice == "best":
             cmd = base_cmd + ["-f", "bestvideo+bestaudio/best"]
         elif format_choice == "best_under_720p":
