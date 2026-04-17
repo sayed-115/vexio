@@ -1,7 +1,7 @@
 @echo off
-TITLE Aura Web Downloader Server
+TITLE Aura CLI Downloader
 echo *******************************************************
-echo * Initiating Aura Web Downloader...                   *
+echo * Initiating Aura CLI Downloader...                   *
 echo *******************************************************
 echo.
 
@@ -23,13 +23,11 @@ pip install -q -r requirements.txt
 
 echo.
 echo ========================================================
-echo   🚀 SERVER IS LIVE!
-echo   Open your browser and navigate to: http://127.0.0.1:5000
-echo   To stop the server, just close this window.
+echo   🚀 STARTING TERMINAL INTERFACE
 echo ========================================================
 echo.
 
-:: Launch the web server
-python app.py
+:: Launch the CLI script
+python downloader.py
 
 pause
