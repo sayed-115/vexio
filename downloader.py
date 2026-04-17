@@ -247,6 +247,20 @@ def main():
             f.get("height") for f in formats if f.get("height") and f.get("vcodec") != "none"
         )), reverse=True)
         
+        # Identify best audio details for the UI
+        best_audio_kbps = 0
+        best_audio_ext = ""
+        for f in formats:
+            if f.get("acodec") != "none" and f.get("vcodec") == "none":
+                abr = f.get("abr") or f.get("tbr") or 0
+                if abr > best_audio_kbps:
+                    best_audio_kbps = abr
+                    best_audio_ext = f.get("ext", "unknown").upper()
+                    
+        audio_msg = "highest quality audio"
+        if best_audio_kbps > 0:
+            audio_msg = f"{int(best_audio_kbps)}kbps {best_audio_ext} audio"
+            
         # Show all available unique resolutions (useful for vertical social media formats like 1920p/1280p)
         available_res = resolutions[:10] # Limit to top 10 to prevent massive console menus
         
@@ -266,7 +280,7 @@ def main():
                     label += " [bold green](Highest Quality)[/bold green]"
                     is_best_res = False
                     
-                console.print(f"  [cyan]{idx}.[/cyan] {label} Video [dim](Auto-merges highest quality audio)[/dim]")
+                console.print(f"  [cyan]{idx}.[/cyan] {label} Video [dim](Auto-merges {audio_msg})[/dim]")
                 choices.append(str(idx))
                 idx += 1
                 
