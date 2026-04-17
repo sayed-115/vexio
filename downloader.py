@@ -162,9 +162,17 @@ def display_format_table(data):
 
 def download_media(url, format_choice, is_audio=False, audio_mode="mp3"):
     """Executes the download with yt-dlp."""
+    # Define smart output template based on platform to prevent ugly titles
+    if "youtube.com" in url.lower() or "youtu.be" in url.lower():
+        outtmpl = "%(title).60s_[%(id)s].%(ext)s"
+    else:
+        # Social media (Insta/FB) have massive garbage descriptions instead of true titles.
+        # Use Platform_Creator_ID format (e.g. Instagram_setupset_12345.mp4)
+        outtmpl = "%(extractor_key)s_%(uploader|Video)s_[%(id)s].%(ext)s"
+        
     # Ensure merge-output-format isn't passed when audio is extracted to prevent errors
     if is_audio:
-        base_cmd = [sys.executable, "-m", "yt_dlp", url, "-P", DOWNLOAD_DIR, "-o", "%(title).60s_[%(id)s].%(ext)s", "--restrict-filenames"]
+        base_cmd = [sys.executable, "-m", "yt_dlp", url, "-P", DOWNLOAD_DIR, "-o", outtmpl, "--restrict-filenames"]
         if audio_mode == "mp3":
             # Best possible VBR 0 MP3 (equivalent to 320kbps)
             cmd = base_cmd + ["-x", "--audio-format", "mp3", "--audio-quality", "0"]
@@ -172,7 +180,7 @@ def download_media(url, format_choice, is_audio=False, audio_mode="mp3"):
             # Exact 1:1 bit-for-bit native youtube audio (Opus/AAC)
             cmd = base_cmd + ["-f", "bestaudio/best", "-x"]
     else:
-        base_cmd = [sys.executable, "-m", "yt_dlp", url, "-P", DOWNLOAD_DIR, "-o", "%(title).60s_[%(id)s].%(ext)s", "--restrict-filenames", "--merge-output-format", "mp4"]
+        base_cmd = [sys.executable, "-m", "yt_dlp", url, "-P", DOWNLOAD_DIR, "-o", outtmpl, "--restrict-filenames", "--merge-output-format", "mp4"]
         if format_choice == "best":
             cmd = base_cmd + ["-f", "bestvideo+bestaudio/best"]
         elif format_choice == "best_under_720p":
@@ -222,7 +230,15 @@ def main():
         if not media_data:
             continue
             
-        console.print(f"\n[bold green]🎯 Target:[/bold green] {media_data.get('title', 'Unknown Media')}")
+        media_title = media_data.get('title', 'Unknown Media')
+        extractor = media_data.get('extractor_key', '')
+        uploader = media_data.get('uploader', '')
+        
+        # Clean up social media titles for the UI display
+        if extractor in ['Instagram', 'Facebook', 'TikTok']:
+            media_title = f"{extractor} Video by {uploader}" if uploader else f"{extractor} Video"
+            
+        console.print(f"\n[bold green]🎯 Target:[/bold green] {media_title}")
         
         
         # Extract unique resolutions dynamically
