@@ -1,8 +1,6 @@
 @echo off
 TITLE Aura CLI Downloader
-echo *******************************************************
-echo * Initiating Aura CLI Downloader...                   *
-echo *******************************************************
+echo Initiating Aura CLI Downloader...
 echo.
 
 :: Check if the virtual environment exists, create if not
@@ -21,10 +19,7 @@ call "venv\Scripts\activate.bat"
 echo [3/3] Guaranteeing dependencies are securely installed...
 pip install -q -r requirements.txt
 
-echo.
-echo ========================================================
-echo   🚀 STARTING TERMINAL INTERFACE
-echo ========================================================
+echo Starting terminal interface...
 echo.
 
 :: Launch the CLI script

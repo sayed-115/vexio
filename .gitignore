@@ -3,6 +3,8 @@ __pycache__/
 *.zip
 ffmpeg.exe
 ffprobe.exe
+ffplay.exe
 temp_downloads/
 downloads/
+.cache/
 .DS_Store
