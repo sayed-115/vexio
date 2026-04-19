@@ -17,7 +17,7 @@ call "venv\Scripts\activate.bat"
 
 :: Install necessary packages inside the isolated folder
 echo [3/3] Guaranteeing dependencies are securely installed...
-pip install -q -r requirements.txt
+pip install -q --disable-pip-version-check -r requirements.txt
 
 echo Starting terminal interface...
 echo.
